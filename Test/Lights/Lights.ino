@@ -51,7 +51,15 @@ void loop() {
     // Here we're using a moderately bright green color:
     pixels.setPixelColor(i, pixels.Color(0, 150, 0));
     pixels.show();
-    delay(200);
+    delay(100);
+  }
+  for (int i = 0; i < NUMPIXELS; i++) { // For each pixel...
+
+    // pixels.Color() takes RGB values, from 0,0,0 up to 255,255,255
+    // Setting red color:
+    pixels.setPixelColor(i, pixels.Color(255, 255, 153));
+    pixels.show();
+    delay(100);
   }
   for (int i = 0; i < NUMPIXELS; i++) { // For each pixel...
 
@@ -59,7 +67,7 @@ void loop() {
     // Setting red color:
     pixels.setPixelColor(i, pixels.Color(204, 0, 0));
     pixels.show();
-    delay(200);
+    delay(100);
   }
 
 }
