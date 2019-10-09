@@ -1,6 +1,6 @@
 // define all Pins
-int temperaturePin = 10;
-int soundPin = 9;
+int temperaturePin = A11;
+int soundPin = 10;
 int temperatureVal = 4;
 int temperatureC = 25;
 
@@ -8,8 +8,8 @@ int temperatureC = 25;
 #ifdef __AVR__
 #include <avr/power.h>
 #endif
-#define lightPin 12
-#define numPixel 1
+#define lightPin 9
+#define numPixel 12
 Adafruit_NeoPixel pixels(numPixel, lightPin, NEO_GRB + NEO_KHZ800);
 
 
@@ -22,7 +22,7 @@ void setup() {
   byte neoBright = 100;
   pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
   pixels.show();   // Send the updated pixel colors to the hardware.
-  pixels.setBrightness(neoBright);
+  // pixels.setBrightness(neoBright);
 
   // INPUTS
   pinMode(temperaturePin, INPUT);
@@ -59,6 +59,27 @@ float measure_temperature()
 
 }
 
+/*
+  char setRandomColor()
+  {
+  char red = "204, 0, 0";
+  char green = "0, 150, 0";
+  char white = "255, 255, 153";
+  char color [3] = {"red", "green", "white"};
+  int itemNumber = rand() % 3;
+  if (itemNumber == "red"){
+  return "204, 0, 0"
+  }
+  if (itemNumber == "green"){
+  return "0, 150, 0"
+  }
+  if (itemNumber == "white"){
+  return "255, 255, 153"
+  }
+  // return color[itemNumber];
+  }
+*/
+
 void loop() {
   int temperature;
   temperature = measure_temperature();
@@ -71,25 +92,36 @@ void loop() {
     digitalWrite(soundPin, HIGH);
 
     //turn on and off lights
-
     for (int i = 0; i < numPixel; i++) { // For each pixel...
       // Set green color:
       pixels.setPixelColor(i, pixels.Color(0, 150, 0));
       pixels.show();
-      delay(300);
+      delay(25);
     }
-    for (int i = 0; i < numPixel; i++) { // For each pixel...
+   /* for (int i = 0; i < numPixel; i++) { // For each pixel...
       // Setting white color:
-      pixels.setPixelColor(i, pixels.Color(255, 255, 153));
+      pixels.setPixelColor(i, pixels.Color(255, 255, 255));
       pixels.show();
-      delay(300);
+      delay(30);
     }
+    */
     for (int i = 0; i < numPixel; i++) { // For each pixel...
       // Setting red color:
       pixels.setPixelColor(i, pixels.Color(204, 0, 0));
       pixels.show();
-      delay(300);
+      delay(25);
     }
+
+    /*
+      // TEST
+      for (int i = 0; i < numPixel; i++) { // For each pixel...
+       char color = setRandomColor();
+       pixels.setPixelColor(i, pixels.Color(color));
+      pixels.show();
+      delay(20);
+      }
+
+    */
   }
   else {
     Serial.println("too warm");
@@ -101,6 +133,6 @@ void loop() {
       pixels.show();
     }
     digitalWrite(soundPin, LOW);
-    delay(900);
+    delay(300);
   }
 }
