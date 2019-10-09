@@ -1,9 +1,6 @@
 // define all Pins
-// int colorPin = ;
 int temperaturePin = 10;
-// int firePin= ;
 int soundPin = 9;
-// int lightPin = 12;
 int temperatureVal = 4;
 int temperatureC = 25;
 
@@ -11,9 +8,9 @@ int temperatureC = 25;
 #ifdef __AVR__
 #include <avr/power.h>
 #endif
-#define PIN 12
-#define NUMPIXELS 1
-Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+#define lightPin 12
+#define numPixel 1
+Adafruit_NeoPixel pixels(numPixel, lightPin, NEO_GRB + NEO_KHZ800);
 
 
 void setup() {
@@ -21,7 +18,6 @@ void setup() {
 
   // OUTPUTS
   pinMode(soundPin, OUTPUT);
-  // pinMode(lightPin, OUTPUT);
 
   byte neoBright = 100;
   pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
@@ -29,17 +25,14 @@ void setup() {
   pixels.setBrightness(neoBright);
 
   // INPUTS
-  // pinMode(colorPin, INPUT);
   pinMode(temperaturePin, INPUT);
-  // pinMode(firePin, INPUT);
-
   Serial.begin(9600);
 }
 
 float take_averaged_reading(int temp)
 {
   float sum = 0.0 ;
-  int counts = 8;
+  int counts = 20;
   for (byte i = 0 ; i < counts ; i++)
     sum += temp ; // whatever code reads the sensor
   return sum / counts ;
@@ -67,7 +60,6 @@ float measure_temperature()
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   int temperature;
   temperature = measure_temperature();
 
@@ -79,20 +71,20 @@ void loop() {
     digitalWrite(soundPin, HIGH);
 
     //turn on and off lights
-    // pixels.Color() takes RGB values, from 0,0,0 up to 255,255,255
-    for (int i = 0; i < NUMPIXELS; i++) { // For each pixel...
+
+    for (int i = 0; i < numPixel; i++) { // For each pixel...
       // Set green color:
       pixels.setPixelColor(i, pixels.Color(0, 150, 0));
       pixels.show();
       delay(300);
     }
-    for (int i = 0; i < NUMPIXELS; i++) { // For each pixel...
+    for (int i = 0; i < numPixel; i++) { // For each pixel...
       // Setting white color:
       pixels.setPixelColor(i, pixels.Color(255, 255, 153));
       pixels.show();
       delay(300);
     }
-    for (int i = 0; i < NUMPIXELS; i++) { // For each pixel...
+    for (int i = 0; i < numPixel; i++) { // For each pixel...
       // Setting red color:
       pixels.setPixelColor(i, pixels.Color(204, 0, 0));
       pixels.show();
@@ -103,7 +95,7 @@ void loop() {
     Serial.println("too warm");
     // turn off sound and lights
     pixels.clear();
-      for (int i = 0; i < NUMPIXELS; i++) { // For each pixel...
+    for (int i = 0; i < numPixel; i++) { // For each pixel...
       // Setting red color:
       pixels.setPixelColor(i, pixels.Color(0, 0, 0));
       pixels.show();
